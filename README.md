@@ -19,6 +19,8 @@ electromechanical ring.
 - 🌀 **Original rotary dial** — decode the ~10 PPS loop-current pulses
 - 🪝 **Original hook switch** — pick up to answer, hang up to end
 - 🎙 **Original handset** — carbon microphone + receiver, with proper DC bias
+- 🎵 **Dial tone** — continuous 425 Hz (NL/SE standard) on lift, locally generated
+  (cellular networks provide none; ringback/busy come from the network in-call)
 - 🔔 **Original bells** — driven with real ~25 Hz ringing voltage, not a speaker
 - 🔋 **Self-contained** — 18650 Li-ion pack inside the case, charged via USB-C
 - 🕰 **Period-correct exterior** — no visible modern parts
@@ -93,9 +95,12 @@ codec and the handset.
 - [ ] Bench: verify the Ag1171 (low-power ringer) rings the twin-gong bells convincingly
 - [ ] Bench: test 24–28 V square-wave direct bell drive vs SLIC drive
 - [ ] Verify VoLTE on A7670E with a Dutch carrier SIM (else switch to LARA-R6801)
+- [ ] Verify AT+CCMXPLAY (or equivalent) on A7670E for local 425 Hz dial tone playback;
+      fallback: ESP32-generated tone into the Ag1171 audio path (weeBell approach)
 - [ ] Power chain: USB-C → charger → 1S pack → rails, ride-through test under TX burst
 - [ ] Handset interface: carbon mic bias + level matching to modem audio
-- [ ] ESP32 firmware: pulse decode, hook state machine, AT call control, ring cadence
+- [ ] ESP32 firmware: pulse decode, hook state machine, AT call control, ring cadence,
+      dial tone start/stop (off-hook → tone, first pulse → silence)
 - [ ] Integration: fit everything in the bakelite case, antenna placement
 - [ ] The first call ☎
 

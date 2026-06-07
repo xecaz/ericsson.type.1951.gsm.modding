@@ -34,6 +34,12 @@ VBAT, 3.3V buck for ESP32, Ag1171 direct from 3.3–5V.
 - QCX601 SLIC is unobtainable (2026); Ag1171 is the replacement. Ag1171 is a low-power
   ringer — whether it rings these high-impedance bells is an open bench question;
   fallback is boost + H-bridge (~25 Hz at bell resonance).
+- Cellular has no dial tone — must be generated locally (425 Hz continuous, NL/SE).
+  Plan A: modem plays looping WAV (AT+CCMXPLAY — verify on A7670E). Plan B: ESP32 tone
+  into the SLIC audio path. Ringback/busy DO come from the network in-call.
+- Handset is reusable as-is: receiver is electromagnetic (no work); carbon mic is biased
+  by the SLIC loop current automatically. If a capsule is dead: tap to unpack granules,
+  or hide an electret+adapter inside the original capsule housing.
 
 ## Conventions
 
