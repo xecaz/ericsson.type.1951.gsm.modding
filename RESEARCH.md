@@ -29,6 +29,15 @@ Decoding spec: count breaks, ~100 ms/pulse period, ~60/40 break/make, inter-digi
 (10 pulses = 0), but since the design lineage is Swedish, **verify the actual faceplate on the unit**
 before hardcoding `digit = pulses % 10`.
 
+**Update (2026-06-06):** the builder's unit is believed to be a **Swedish- or Finnish-market DBH15**,
+not the Dutch type 1951 derivative. Follow-up verification ([Wikipedia: Rotary dial](https://en.wikipedia.org/wiki/Rotary_dial),
+[Pulse dialing](https://en.wikipedia.org/wiki/Pulse_dialing)): **Finland kept the standard mapping**
+(1 pulse = 1 … 10 pulses = 0) despite using Swedish-made phones; only **Sweden** is inverted.
+Identification: faceplate with **0 in the first hole** (shortest rotation) = Swedish inverted;
+**0 in the last hole** = Finnish/standard. Swedish Televerket units are often marked "RIKSTELEFON".
+Electrical specs (10 PPS, ~25 Hz ring, carbon mic) are identical across all three markets — only
+the firmware digit map differs.
+
 **Not found:** an original Ericsson/PTT service manual with exact bell-coil impedance, ringing voltage
 rating, or capsule electrical specs. → Measure on the bench (see Open Questions).
 
@@ -75,10 +84,23 @@ non-whitelisted IMEIs — prefer a main carrier SIM for first bring-up.
 | Also seen | [smith1401/PartyPhone](https://github.com/smith1401/PartyPhone) | — | additional ESP32 prior art |
 
 **Recommended route (synthesis):** hybrid DIY —
-**ESP32 + A7670E (Waveshare HAT or LilyGO board) + QCX601 SLIC front-end**, with LARA-R6801 as
+**ESP32 + A7670E (Waveshare HAT or LilyGO board) + SLIC front-end**, with LARA-R6801 as
 fallback if A7670E VoLTE fails on your carrier.
 
-The QCX601 SLIC is the keystone: one IC gives you
+**Sourcing update (2026-06-07):** the QCX601 is effectively unobtainable. Replacement:
+**Silvertel Ag1171** — same SLIC concept, single 3.3–5V supply with integrated DC/DC + ring
+generator (no 12 V boost rail needed), 14-pin SIL module. In stock at
+[DigiKey](https://www.digikey.com/en/products/detail/silvertel/AG1171/21187236),
+[Newark](https://www.newark.com/silvertel/ag1171-s/subscriber-line-interface-circuit/dp/08AM1737),
+[Electrokit (SE)](https://www.electrokit.com/en/slic-subscriber-line-interface-600ohm-line).
+[Datasheet](https://silvertel.com/images/datasheets/Ag1171-datasheet-Low-cost-ringing-SLIC-with-single-supply.pdf).
+Prior art: [danjulio/weeBell_hardware](https://github.com/danjulio/weeBell_hardware) (ESP32 + Ag1171
+ringing vintage phones). Caveat: Ag1171 is a *low-power* ringer (short-loop, ~470 Ω design target);
+bench-verify it rings the high-impedance twin-gong bells — fallback is the boost + H-bridge route E.
+Alternative zero-SLIC route: dial/hook contacts straight to GPIOs, resistor bias for the carbon mic,
+boost + H-bridge for the bells.
+
+The SLIC is the keystone: one IC gives you
 - ~25 Hz ring generation driving the **original bells** over tip/ring (RC pin: ~1.2 s on / ~6 s off cadence, Hz pin: 25 Hz),
 - hook-switch state on its SHK output,
 - rotary pulse counting on the same SHK line,
@@ -108,8 +130,8 @@ modem alive through 1–2 A LTE transmit bursts while plugged in.
 
 - USB-C input: 5.1 kΩ pull-downs on CC1/CC2 required for C-to-C cable compatibility (user has modules with CC resistors — verify 5.1 kΩ pull-down config).
 - Bulk reservoir ≥1000 µF + ceramics at the modem VBAT pins for TX spikes.
-- Rails: battery → modem VBAT direct (3.4–4.2 V); buck/LDO → 3.3 V ESP32; SLIC supply per QCX601 datasheet (typically needs ~12 V — one small boost) — single-cell + boosts beats multi-cell complexity.
-- User parts on hand: USB-C modules w/ CC resistors ✅, 18650s + boxes ✅, bucks ✅, 1S/2S/3S BMS (to check). To order: BQ24074 board (or use existing 1S charger initially), QCX601 SLIC module, modem board, boost for SLIC supply.
+- Rails: battery → modem VBAT direct (3.4–4.2 V); buck/LDO → 3.3 V ESP32; Ag1171 SLIC runs directly from 3.3–5 V (integrated DC/DC + ring generator — no separate boost rail) — single-cell topology, no multi-cell complexity.
+- User parts on hand: USB-C modules w/ CC resistors ✅, 18650s + boxes ✅, bucks ✅, 1S/2S/3S BMS (to check). To order: BQ24074 board (or use existing 1S charger initially), Ag1171 SLIC module (DigiKey/Newark/Electrokit), modem board.
 
 ## 6. Caveats & open questions
 
