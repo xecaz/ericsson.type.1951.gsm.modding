@@ -12,6 +12,15 @@ electromechanical ring.
 > 10 pulses = "0") — the Swedish inversion does NOT apply here. See
 > [RESEARCH.md](RESEARCH.md) for the full, source-cited engineering research.
 
+## The phone
+
+| | |
+|---|---|
+| ![The phone with rotary dial](dial.jpg) | ![Schematic glued inside the case](schematic.jpg) |
+| *Bakelite desk set — note the dial: "1" by the finger stop, "0" last (standard mapping).* | *The bilingual Finnish/Swedish schematic — model DBHH 1311, ref H 11283.* |
+| ![Inside — bells and terminal block](inside1.jpg) | ![Twin-gong bells, ringer coil, capacitor block](inside2.jpg) |
+| *Inside the case: twin-gong bells, induction coil, leaf-spring terminal block.* | *The iconic twin gongs + ringer coil, and the "1MF 1MF 500V" capacitor block.* |
+
 ## Goals
 
 - 📞 **Make and receive real calls** over 4G/VoLTE on a Dutch carrier
