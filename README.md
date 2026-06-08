@@ -5,12 +5,12 @@ mobile phone — while keeping everything that makes it *that* phone: the rotary
 the hook switch, the original handset, and above all the iconic twin-gong
 electromechanical ring.
 
-> "Type 1951" is the official Dutch PTT designation for Ericsson Holland's adaptation
-> of the Swedish Ericsson **DBH15 (1947)**. This particular unit is believed to be a
-> **Swedish- or Finnish-market DBH15** rather than the Dutch derivative — electrically
-> identical, but the dial digit mapping differs (see below). See
-> [RESEARCH.md](RESEARCH.md) for the full, source-cited engineering research behind
-> this project.
+> **This unit is confirmed Finnish** (model **DBHH 1311**, ref H 11283) — identified from
+> the bilingual Finnish/Swedish schematic glued inside the case. It's a sibling of the
+> Swedish Ericsson DBH-series bakelite phone; "type 1951" (the Dutch PTT derivative) is
+> kept as the project name. Finland used the **standard** dial mapping (1 pulse = "1",
+> 10 pulses = "0") — the Swedish inversion does NOT apply here. See
+> [RESEARCH.md](RESEARCH.md) for the full, source-cited engineering research.
 
 ## Goals
 
@@ -74,13 +74,11 @@ codec and the handset.
 
 ## Watch out for
 
-- **Swedish vs Finnish dial mapping** — Sweden used an inverted mapping
-  (1 pulse = 0, 2 pulses = 1, … 10 pulses = 9); Finland, despite using Swedish-made
-  phones, kept the standard mapping (1 pulse = 1, … 10 pulses = 0). Identify by the
-  faceplate: **0 in the first hole** (shortest rotation) = Swedish; **0 last** =
-  Finnish/standard. Swedish Televerket units are often marked "RIKSTELEFON". The
-  firmware makes the mapping a config option (and can self-calibrate: "dial 0 at
-  first boot").
+- **Dial mapping — RESOLVED: standard.** This unit is Finnish; the dial reads
+  `digit = (pulses == 10) ? 0 : pulses` (1 pulse = "1", 10 pulses = "0"). Confirmed by
+  the dial faceplate (1 next to the finger stop, 0 last) and Finnish provenance. The
+  Swedish inversion (1 pulse = 0) does NOT apply. Firmware keeps it a config flag anyway
+  in case the dial is ever swapped.
 - **Never oil the dial governor** — it's a friction brake; oil ruins the pulse timing.
 - **A7670E VoLTE** — the single biggest project risk; verify IMS registration with
   your Dutch SIM before building around it.
@@ -90,7 +88,8 @@ codec and the handset.
 - [x] Research: model identification, prior art, modem options, ringer circuits
       ([RESEARCH.md](RESEARCH.md))
 - [ ] Bench: measure bell coil resistance + resonant frequency (sweep ~18–30 Hz)
-- [ ] Bench: identify dial faceplate (Dutch vs Swedish mapping), scope the pulse train
+- [x] Identify dial mapping — Finnish unit, **standard** mapping (1 pulse="1", 10="0")
+- [ ] Bench: scope the pulse train to confirm timing (~10 PPS, break/make ratio)
 - [ ] Order: Ag1171 SLIC (Electrokit/DigiKey), A7670E board, BQ24074 breakout
 - [ ] Bench: verify the Ag1171 (low-power ringer) rings the twin-gong bells convincingly
 - [ ] Bench: test 24–28 V square-wave direct bell drive vs SLIC drive

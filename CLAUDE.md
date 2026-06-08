@@ -1,9 +1,10 @@
 # CLAUDE.md
 
-Hardware/maker project: converting a 1950s Ericsson bakelite telephone (Swedish/Finnish-market
-**DBH15**; "type 1951" is the Dutch PTT derivative's name, kept as the project name) into a
-working **4G/VoLTE mobile phone** for use in the Netherlands — keeping the original rotary dial,
-hook switch, carbon-mic handset, and twin-gong electromechanical bells.
+Hardware/maker project: converting a 1950s Ericsson bakelite telephone into a working
+**4G/VoLTE mobile phone** for use in the Netherlands — keeping the original rotary dial,
+hook switch, carbon-mic handset, and twin-gong electromechanical bells. The unit is a
+confirmed **Finnish DBHH 1311** (ref H 11283, bilingual Finnish/Swedish schematic glued
+inside the case); "type 1951" (the Dutch PTT sibling) is kept as the project name.
 
 ## Key files
 
@@ -26,9 +27,12 @@ VBAT, 3.3V buck for ESP32, Ag1171 direct from 3.3–5V.
 - A7670E = 4G LTE Cat-1 (the "E" = Europe bands B1/B3/B5/B7/B8/B20). Its 2G mention in
   listings is legacy fallback, not the operating mode. Its **VoLTE reliability is the
   project's #1 risk** — must be tested on-carrier before building around it.
-- Dial mapping differs by market: **Sweden inverted** (1 pulse = 0 … 10 pulses = 9),
-  **Finland standard** (10 pulses = 0). Identify via faceplate: 0 in first hole = Swedish.
-  Firmware must keep the mapping configurable. Unit's actual market still unconfirmed.
+- Dial mapping RESOLVED: unit is Finnish → **standard** mapping, digit = (pulses==10)?0:pulses.
+  Confirmed by faceplate (1 by finger stop, 0 last) + Finnish schematic. Swedish inversion
+  does NOT apply. Keep mapping configurable in firmware regardless.
+- Inside (from photos): twin-gong bells + ringer coil; "1MF 1MF 500V" capacitor block
+  (ringer DC-block + dial anti-spark); induction coil (hybrid → sidetone); leaf-spring
+  terminal block. All original parts reusable. Ringer coil DC resistance not yet measured.
 - Dial timing: ~10 PPS, ~100 ms/pulse, pulses on return rotation, inter-digit gap detection.
 - **Never oil the dial governor** (friction brake — oil ruins pulse timing).
 - QCX601 SLIC is unobtainable (2026); Ag1171 is the replacement. Ag1171 is a low-power
