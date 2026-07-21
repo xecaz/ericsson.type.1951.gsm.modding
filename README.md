@@ -71,6 +71,26 @@ The ESP32 runs the state machine (idle / dialing / calling / ringing / in-call) 
 talks AT commands to the modem; call audio flows directly between the modem's audio
 codec and the handset.
 
+### Carrier board
+
+A single-sided **interconnect PCB** ties the three modules together and breaks the
+phone's own parts out onto clearly-marked large pads. It's in
+[`hardware/carrier-board/`](hardware/carrier-board/) — a KiCad 10 board generated from
+`gen_board.py`, with fab-ready Gerbers in `gerbers/carrier-gerbers.zip`.
+
+- **44 × 100 mm** tall strip (modules stand vertical, side by side) to fit a 45 × 120 mm
+  mill bed; all copper on one layer (bottom) + a GND pour, **one PWRKEY wire jumper**.
+- Holds **ESP32-DevKitC** (U1) + **Ag1171 SLIC** (U2) + **Waveshare A7670E HAT** (U3, SKU
+  20049), plus terminals for **PWR IN** (5 V) and **SLIC PWR**.
+- Phone parts on large marked pads: **BELL** → SLIC TIP/RING, **HOOK** → GPIO14,
+  **DIAL** → GPIO13, **MIC / SPK** → modem audio (HAT 3.5 mm jack).
+- On-board decoupling: **C1** (~100 µF, Ag1171 ring DC/DC) and **C2** (~1000 µF, 5 V
+  reservoir for modem TX bursts). A few off-board extras are still needed — carbon-mic
+  bias, optional ESD clamp — see the board's own [README](hardware/carrier-board/README.md).
+
+> ⚠ Measure your ESP32's header **row spacing** (25.4 mm official vs 22.86 mm clone) before
+> cutting — modules solder onto rigid pins. It's a one-line change + regen if it's a clone.
+
 ## Key design decisions
 
 | Decision | Choice | Why |
@@ -96,6 +116,8 @@ codec and the handset.
 
 - [x] Research: model identification, prior art, modem options, ringer circuits
       ([RESEARCH.md](RESEARCH.md))
+- [x] Design the module interconnect / carrier PCB — single-sided, 44×100 mm, Gerbers
+      ([hardware/carrier-board/](hardware/carrier-board/))
 - [ ] Bench: measure bell coil resistance + resonant frequency (sweep ~18–30 Hz)
 - [x] Identify dial mapping — Finnish unit, **standard** mapping (1 pulse="1", 10="0")
 - [ ] Bench: scope the pulse train to confirm timing (~10 PPS, break/make ratio)

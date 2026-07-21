@@ -1,0 +1,33 @@
+** Drc report for carrier.kicad_pcb **
+** Created on 2026-07-21T12:04:44 **
+** Report includes: Errors, Warnings **
+
+** Found 3 DRC violations **
+[isolated_copper]: Isolated copper fill
+    Local override; warning
+    @(3.0000 mm, 6.5000 mm): Zone [GND] on B.Cu, priority 0
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(35.6000 mm, 52.8800 mm): PCB text 'PWRKEY' on F.Silkscreen
+    @(36.9400 mm, 52.4800 mm): PTH pad 12 [<no net>] of U3
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(35.6000 mm, 52.8800 mm): PCB text 'PWRKEY' on F.Silkscreen
+    @(39.4800 mm, 52.4800 mm): PTH pad 11 [<no net>] of U3
+
+** Found 1 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(34.4000 mm, 52.4800 mm): PTH pad B13 [PWRKEY] of U1
+    @(39.4800 mm, 47.4000 mm): PTH pad 7 [PWRKEY] of U3
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **
