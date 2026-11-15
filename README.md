@@ -118,6 +118,9 @@ phone's own parts out onto clearly-marked large pads. It's in
       ([RESEARCH.md](RESEARCH.md))
 - [x] Design the module interconnect / carrier PCB — single-sided, 44×100 mm, Gerbers
       ([hardware/carrier-board/](hardware/carrier-board/))
+- [x] Cable-harness alternative to the carrier board: wire list, connectors, routing
+      ([hardware/harness/](hardware/harness/))
+- [ ] Dry-fit modules + battery in the case, measure harness run lengths
 - [ ] Bench: measure bell coil resistance + resonant frequency (sweep ~18–30 Hz)
 - [x] Identify dial mapping — Finnish unit, **standard** mapping (1 pulse="1", 10="0")
 - [ ] Bench: scope the pulse train to confirm timing (~10 PPS, break/make ratio)
