@@ -29,7 +29,16 @@ on-board — so a 1S pack needs a **boost to 5 V** feeding the carrier's PWR IN.
 "modem on raw VBAT" applied to a *bare* SIMCom module.) ESP32 from 5 V via its onboard LDO;
 Ag1171 direct from 3.3–5V (with ~100 µF local decoupling for its ring DC/DC).
 
-Physical build: a single-sided carrier PCB (`hardware/carrier-board/`, 44×100 mm to fit a
+Physical build (preferred since 2026-11-15): a **cable harness** (`hardware/harness/`),
+because the carrier board may not fit the case. Modules sit loose where there is room;
+each gets its own 5V+GND pair from one star point at the boost output (HAT pair 0.5 mm²).
+C2 (≥1000 µF) at the HAT feed; the Ag1171 sits on a perfboard scrap with C1 (~100 µF) on
+pins 13/12 and a screw terminal for TIP/RING. Module ends are **crimped Dupont** (decided);
+phone ends are ring/fork lugs under the original terminals. Same pins/GPIOs as the board.
+Run lengths are not measured yet: dry-fit the parts in the case first. `harness.svg` is the
+illustration source (render: `rsvg-convert -o harness.png harness.svg`).
+
+Alternative build: a single-sided carrier PCB (`hardware/carrier-board/`, 44×100 mm to fit a
 45×120 mm mill) mounts ESP32-DevKitC + Ag1171 + A7670E HAT; all copper on one layer + GND
 pour, **one PWRKEY wire jumper**. Phone parts land on large marked pads:
 BELL→SLIC TIP/RING, HOOK→GPIO14, DIAL→GPIO13, MIC/SPK→modem audio (HAT 3.5 mm jack).
